@@ -306,9 +306,10 @@ jobs:
         curl -fsSL -o slang.tar.gz "https://github.com/shader-slang/slang/releases/download/v${SLANG_VERSION}/slang-${SLANG_VERSION}-linux-x86_64.tar.gz"
         mkdir -p slang-release
         tar -xzf slang.tar.gz -C slang-release
+        export LD_LIBRARY_PATH="$PWD/slang-release/lib:$PWD/slang-release/bin:$LD_LIBRARY_PATH"
         SLANGC="$PWD/slang-release/bin/slangc"
         chmod +x "$SLANGC"
-        "$SLANGC" -v || true
+        "$SLANGC" -v
         python python/Scripts/generateshader.py resources/Materials/Examples/StandardSurface --target slang --validator "$SLANGC"
         python python/Scripts/generateshader.py resources/Materials/TestSuite/stdlib --target slang --validator "$SLANGC"
 
